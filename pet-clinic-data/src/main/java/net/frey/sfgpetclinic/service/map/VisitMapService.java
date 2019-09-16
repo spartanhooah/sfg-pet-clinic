@@ -6,12 +6,6 @@ import net.frey.sfgpetclinic.service.VisitService;
 import java.util.Set;
 
 public class VisitMapService extends AbstractMapService<Visit, Long> implements VisitService {
-    private final VisitService visitService;
-
-    public VisitMapService(VisitService visitService) {
-        this.visitService = visitService;
-    }
-
     @Override
     public Set<Visit> findAll() {
         return super.findAll();
