@@ -1,6 +1,7 @@
 package net.frey.sfgpetclinic.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@EqualsAndHashCode(exclude = {"pets"}, callSuper = false)
 @Entity
 @Table(name = "owners")
 public class Owner extends Person {

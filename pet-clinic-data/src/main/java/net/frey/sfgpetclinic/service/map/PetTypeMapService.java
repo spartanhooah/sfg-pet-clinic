@@ -2,11 +2,13 @@ package net.frey.sfgpetclinic.service.map;
 
 import net.frey.sfgpetclinic.model.PetType;
 import net.frey.sfgpetclinic.service.PetTypeService;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
 @Service
+@Profile({"default", "map"})
 public class PetTypeMapService extends AbstractMapService<PetType, Long> implements PetTypeService {
     @Override
     public Set<PetType> findAll() {

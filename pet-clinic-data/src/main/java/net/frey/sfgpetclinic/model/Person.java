@@ -1,13 +1,15 @@
 package net.frey.sfgpetclinic.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @MappedSuperclass
-public class Person extends BaseEntity {
+class Person extends BaseEntity {
     @Column(name = "first_name")
     private String firstName;
 
