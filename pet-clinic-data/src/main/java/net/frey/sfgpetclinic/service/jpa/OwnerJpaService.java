@@ -2,8 +2,6 @@ package net.frey.sfgpetclinic.service.jpa;
 
 import net.frey.sfgpetclinic.model.Owner;
 import net.frey.sfgpetclinic.repository.OwnerRepository;
-import net.frey.sfgpetclinic.repository.PetRepository;
-import net.frey.sfgpetclinic.repository.PetTypeRepository;
 import net.frey.sfgpetclinic.service.OwnerService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
