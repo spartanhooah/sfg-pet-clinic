@@ -17,7 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"pets"}, callSuper = false)
+@EqualsAndHashCode(exclude = {"pets"}, callSuper = true)
 @Entity
 @Table(name = "owners")
 public class Owner extends Person {
