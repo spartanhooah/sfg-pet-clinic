@@ -2,31 +2,26 @@ package net.frey.sfgpetclinic.service.jpa;
 
 import net.frey.sfgpetclinic.model.Owner;
 import net.frey.sfgpetclinic.repository.OwnerRepository;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.hamcrest.Matchers.nullValue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
 @ExtendWith(MockitoExtension.class)
 class OwnerJpaServiceTest {
     private static final String LAST_NAME = "Smith";
     private final Long ID = 1L;
-    Owner defaultOwner;
+    private Owner defaultOwner;
 
     @InjectMocks
     private OwnerJpaService ownerJpaService;
@@ -41,11 +36,11 @@ class OwnerJpaServiceTest {
 
     @Test
     void findByLastName() {
-        when(ownerJpaService.findByLastName(any())).thenReturn(defaultOwner);
+        Mockito.when(ownerJpaService.findByLastName(ArgumentMatchers.any())).thenReturn(defaultOwner);
         Owner smith = ownerJpaService.findByLastName(LAST_NAME);
 
-        assertThat(smith.getLastName(), is(LAST_NAME));
-        verify(ownerRepository).findByLastName(any());
+        MatcherAssert.assertThat(smith.getLastName(), Matchers.is(LAST_NAME));
+        Mockito.verify(ownerRepository).findByLastName(ArgumentMatchers.any());
     }
 
     @Test
@@ -54,52 +49,52 @@ class OwnerJpaServiceTest {
         returnOwnerSet.add(Owner.builder().id(2L).build());
         returnOwnerSet.add(Owner.builder().id(3L).build());
 
-        when(ownerRepository.findAll()).thenReturn(returnOwnerSet);
+        Mockito.when(ownerRepository.findAll()).thenReturn(returnOwnerSet);
 
         Set<Owner> owners = ownerJpaService.findAll();
 
-        assertThat(owners, is(returnOwnerSet));
+        MatcherAssert.assertThat(owners, Matchers.is(returnOwnerSet));
     }
 
     @Test
     void findById() {
-        when(ownerRepository.findById(ID)).thenReturn(Optional.of(defaultOwner));
+        Mockito.when(ownerRepository.findById(ID)).thenReturn(Optional.of(defaultOwner));
         Owner returnedOwner = ownerJpaService.findById(ID);
 
-        assertThat(returnedOwner, is(notNullValue()));
-        assertThat(returnedOwner, is(defaultOwner));
+        MatcherAssert.assertThat(returnedOwner, Matchers.is(Matchers.notNullValue()));
+        MatcherAssert.assertThat(returnedOwner, Matchers.is(defaultOwner));
     }
 
     @Test
     void findByIdNotFound() {
-        when(ownerRepository.findById(ID)).thenReturn(Optional.empty());
+        Mockito.when(ownerRepository.findById(ID)).thenReturn(Optional.empty());
         Owner returnedOwner = ownerJpaService.findById(ID);
 
-        assertThat(returnedOwner, is(nullValue()));
+        MatcherAssert.assertThat(returnedOwner, Matchers.is(Matchers.nullValue()));
     }
 
     @Test
     void save() {
         Owner ownerToSave = Owner.builder().id(2L).build();
-        when(ownerRepository.save(any())).thenReturn(defaultOwner);
+        Mockito.when(ownerRepository.save(ArgumentMatchers.any())).thenReturn(defaultOwner);
 
         Owner savedOwner = ownerJpaService.save(ownerToSave);
 
-        assertThat(savedOwner, is(notNullValue()));
-        verify(ownerRepository).save(any());
+        MatcherAssert.assertThat(savedOwner, Matchers.is(Matchers.notNullValue()));
+        Mockito.verify(ownerRepository).save(ArgumentMatchers.any());
     }
 
     @Test
     void delete() {
         ownerJpaService.delete(defaultOwner);
 
-        verify(ownerRepository).delete(any());
+        Mockito.verify(ownerRepository).delete(ArgumentMatchers.any());
     }
 
     @Test
     void deleteById() {
         ownerJpaService.deleteById(ID);
 
-        verify(ownerRepository).deleteById(anyLong());
+        Mockito.verify(ownerRepository).deleteById(ArgumentMatchers.anyLong());
     }
 }
