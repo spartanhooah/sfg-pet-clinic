@@ -32,7 +32,7 @@ public class OwnerController {
     public String findOwners(Model model) {
         model.addAttribute("owner", Owner.builder().build());
 
-        return "owners/findOwners";
+        return "owners/find";
     }
 
     @GetMapping()
@@ -42,28 +42,29 @@ public class OwnerController {
             owner.setLastName(""); // Empty string signifies broadest possible search
         }
 
-        Set<Owner> results = ownerService.findAllByLastNameLike(owner.getLastName());
+        System.out.println(owner.getLastName());
+        Set<Owner> results = ownerService.findAllByLastNameContaining(owner.getLastName());
+        System.out.println(results);
 
         if (results.isEmpty()) {
             result.rejectValue("lastName", "notFound", "not found");
 
-            return "owners/findOwners";
+            return "owners/find";
         } else if (results.size() == 1) {
             owner = results.iterator().next();
-//            model.addAttribute("");
 
             return "redirect:/owners/" + owner.getId();
         } else {
             model.addAttribute("selections", results);
 
-            return "owners/ownersList";
+            return "owners/list";
         }
 
     }
 
     @GetMapping("/{ownerId}")
     public ModelAndView showOwner(@PathVariable("ownerId") Long ownerId) {
-        ModelAndView mav = new ModelAndView("owners/ownerDetails");
+        ModelAndView mav = new ModelAndView("owners/details");
         mav.addObject(ownerService.findById(ownerId));
 
         return mav;

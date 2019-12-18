@@ -54,7 +54,7 @@ class OwnerControllerTest {
     void findOwners() throws Exception {
         mockMvc.perform(get("/owners/find"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("owners/findOwners"))
+                .andExpect(view().name("owners/find"))
                 .andExpect(model().attributeExists("owner"));
 
         verifyZeroInteractions(ownerService);
@@ -66,23 +66,23 @@ class OwnerControllerTest {
 
         mockMvc.perform(get("/owners/1"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("owners/ownerDetails"))
+                .andExpect(view().name("owners/details"))
                 .andExpect(model().attribute("owner", hasProperty("id", is(1L))));
     }
 
     @Test
     void processFindFormReturnMany() throws Exception {
-        when(ownerService.findAllByLastNameLike(anyString())).thenReturn(owners);
+        when(ownerService.findAllByLastNameContaining(anyString())).thenReturn(owners);
 
         mockMvc.perform(get("/owners"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("owners/ownersList"))
+                .andExpect(view().name("owners/list"))
                 .andExpect(model().attribute("selections", hasSize(2)));
     }
 
     @Test
     void processFindFormReturnOne() throws Exception {
-        when(ownerService.findAllByLastNameLike(anyString())).thenReturn(new HashSet<>(singletonList(Owner.builder().id(1L).lastName("name").build())));
+        when(ownerService.findAllByLastNameContaining(anyString())).thenReturn(new HashSet<>(singletonList(Owner.builder().id(1L).lastName("name").build())));
 
         mockMvc.perform(get("/owners"))
                 .andExpect(status().is3xxRedirection())
