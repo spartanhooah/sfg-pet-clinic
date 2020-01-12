@@ -54,7 +54,7 @@ public class PetController {
     @GetMapping("/pets/new")
     public String initCreationForm(Owner owner, Model model) {
         Pet pet = new Pet();
-        owner.getPets().add(pet);
+        owner.addPet(pet);
         model.addAttribute("pet", pet);
 
         return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
@@ -66,13 +66,12 @@ public class PetController {
             result.rejectValue("name", "duplicate", "already exists");
         }
 
-        owner.getPets().add(pet);
-
         if (result.hasErrors()) {
             model.addAttribute("pet", pet);
 
             return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
         } else {
+            owner.addPet(pet);
             petService.save(pet);
 
             return "redirect:/owners/" + owner.getId();
