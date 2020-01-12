@@ -42,5 +42,5 @@ jobs:
       # run tests!
       - run: mvn integration-test
 
-      - store_test_results
-          path: surefire-reports
+      - store_test_results:
+        path: surefire-reports
