@@ -22,7 +22,7 @@ import javax.validation.Valid;
 import java.util.Collection;
 
 @Controller
-@RequestMapping("/owners/{id}")
+@RequestMapping("/owners/{ownerId}")
 public class PetController {
     private static final String VIEWS_PETS_CREATE_OR_UPDATE_FORM = "pets/createOrUpdateForm";
 
@@ -42,7 +42,7 @@ public class PetController {
     }
 
     @ModelAttribute("owner")
-    public Owner findOwner(@PathVariable("id") Long id) {
+    public Owner findOwner(@PathVariable("ownerId") Long id) {
         return ownerService.findById(id);
     }
 
@@ -93,6 +93,7 @@ public class PetController {
 
             return VIEWS_PETS_CREATE_OR_UPDATE_FORM;
         } else {
+            pet.setOwner(owner);
             owner.getPets().add(pet);
             petService.save(pet);
 
