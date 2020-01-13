@@ -136,4 +136,16 @@ class OwnerControllerTest {
 
         verify(ownerService).save(any());
     }
+
+    @Test
+    void emptyFindFormReturnsAllOwners() throws Exception {
+        when(ownerService.findAllByLastNameContaining(anyString()))
+                .thenReturn(Set.of(Owner.builder().id(1L).build(), Owner.builder().id(1L).build()));
+
+        mockMvc.perform(get("/owners")
+                .param("lastName", ""))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owners/list"))
+                .andExpect(model().attribute("selections", hasSize(2)));
+    }
 }
