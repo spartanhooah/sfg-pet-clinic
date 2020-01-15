@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(MockitoExtension.class)
 class VisitControllerTest {
     private static final String PETS_CREATE_OR_UPDATE_VISIT_FORM = "visits/createOrUpdateForm";
-    private static final String REDIRECT_OWNERS_1 = "redirect:/owners/{ownerId}";
+    private static final String REDIRECT_OWNERS_1 = "redirect:/owners/1";
     private static final String YET_ANOTHER_VISIT_DESCRIPTION = "yet another visit";
 
     @Mock
